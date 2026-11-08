@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ML Lab Code Copy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f1ea;--paper:#fffefb;--ink:#14213d;--muted:#5d6678;--line:#d9d6ca;
+  --accent:#2f4ccf;--accent-ink:#fff;--mark:#ffe066;--code-bg:#14213d;--code-ink:#e8ecf7;--out-bg:#e9f4e6;--out-ink:#143a1c;
+  --ui:"Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1424;--paper:#171e33;--ink:#eef1fa;--muted:#9aa4bd;--line:#2a3352;
+    --accent:#7d93ff;--accent-ink:#0f1424;--mark:#ffd23f;--code-bg:#0a0e1b;--code-ink:#e8ecf7;--out-bg:#12261a;--out-ink:#bfe8c8;color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1424;--paper:#171e33;--ink:#eef1fa;--muted:#9aa4bd;--line:#2a3352;
+  --accent:#7d93ff;--accent-ink:#0f1424;--mark:#ffd23f;--code-bg:#0a0e1b;--code-ink:#e8ecf7;--out-bg:#12261a;--out-ink:#bfe8c8;color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);line-height:1.5}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+header{padding:28px clamp(16px,4vw,48px) 8px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:end;justify-content:space-between}
+h1{margin:0;font-size:clamp(1.8rem,5vw,3rem);line-height:1.05;letter-spacing:-.02em;font-weight:700}
+.sub{margin:6px 0 0;color:var(--muted);max-width:44ch}
+.all{border:2px solid var(--ink);background:transparent;padding:9px 16px;border-radius:6px;font-weight:500}
+.all:hover{background:var(--ink);color:var(--bg)}
+
+.layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:24px;padding:16px clamp(16px,4vw,48px) 48px}
+nav ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;position:sticky;top:12px}
+nav button{width:100%;text-align:left;background:transparent;border:1px solid transparent;border-left:4px solid var(--line);padding:10px 12px;border-radius:0 6px 6px 0}
+nav button b{display:block;font-size:.95rem}
+nav button span{font-size:.8rem;color:var(--muted)}
+nav button:hover{background:var(--paper)}
+nav button[aria-current="true"]{background:var(--paper);border-color:var(--line);border-left-color:var(--accent)}
+
+main{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:clamp(16px,3vw,32px);min-width:0;display:flex;flex-direction:column}
+main>.bar{order:-1;margin:0 0 18px!important}
+h2{margin:0 0 6px;font-size:clamp(1.25rem,3vw,1.7rem);letter-spacing:-.01em}
+.aim{color:var(--muted);margin:0 0 18px;max-width:70ch}
+.bar{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;margin-bottom:12px}
+.tabs{display:flex;gap:4px;background:var(--bg);padding:4px;border-radius:8px}
+.tabs button{border:0;background:transparent;padding:7px 14px;border-radius:5px;font-weight:500}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.copy{border:0;background:var(--accent);color:var(--accent-ink);padding:9px 18px;border-radius:6px;font-weight:700;min-width:132px}
+.copy:hover{filter:brightness(1.1)}
+.copy.done{background:var(--mark);color:#14213d}
+
+pre{margin:0;overflow-x:auto;padding:16px 18px;border-radius:8px;font:400 .82rem/1.55 var(--mono);tab-size:4}
+pre.code{background:var(--code-bg);color:var(--code-ink)}
+pre.out{background:var(--out-bg);color:var(--out-ink)}
+ol.alg{margin:0;padding-left:1.4em;max-width:70ch}
+ol.alg li{padding:3px 0 3px 4px}
+.prog[hidden],.pane[hidden]{display:none}
+
+@media (max-width:760px){
+  .layout{grid-template-columns:1fr;gap:12px}
+  nav ul{flex-direction:row;overflow-x:auto;position:static;padding-bottom:4px}
+  nav button{white-space:nowrap;border-left:1px solid var(--line);border-bottom:4px solid var(--line);border-radius:6px 6px 0 0;width:auto}
+  nav button span{display:none}
+  nav button[aria-current="true"]{border-bottom-color:var(--accent)}
+  .copy{width:100%}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>ML Lab Code Copy</h1>
+    <p class="sub">Five short programs with aim, algorithm and output. Pick one, tap copy, paste into your editor.</p>
+  </div>
+  <button class="all" id="copyAll">Copy all 5 programs</button>
+</header>
+
+<div class="layout">
+<nav aria-label="Programs"><ul id="list"></ul></nav>
+<main>
+
+<section class="prog" id="p1" data-title="Linear Regression" data-sub="California Housing">
+<h2>Program 1: Linear Regression</h2>
+<p class="aim">Implement simple linear regression with Gradient Descent and the Normal Equation on the California Housing dataset, and compare them using MSE and R2 score.</p>
+<div class="pane" data-pane="algorithm"><ol class="alg">
+<li>Start.</li><li>Import NumPy, Matplotlib and Scikit-learn.</li><li>Load the dataset; take AveRooms as X and house price as y.</li><li>Split 80:20 and standardize X using the training mean and standard deviation.</li><li>Initialize theta, learning rate and iterations.</li><li>Gradient Descent: compute gradients, update theta, repeat.</li><li>Display the intercept and slope.</li><li>Normal Equation: add a column of ones and compute theta.</li><li>Predict on the test data with both methods.</li><li>Calculate MSE and R2 score for both.</li><li>Plot the data points and the regression line.</li><li>Stop.</li></ol></div>
+<div class="pane" data-pane="code"><pre class="code">import numpy as np, matplotlib.pyplot as plt
+from sklearn.datasets import fetch_california_housing
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error as mse, r2_score as r2
+
+X, y = fetch_california_housing(return_X_y=True)
+X = X[:, [2]]                                  # AveRooms
+Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.2, random_state=42)
+m, s = Xtr.mean(), Xtr.std()
+b = lambda A: np.c_[np.ones(len(A)), A]        # add ones column
+
+A = b((Xtr - m) / s); th = np.zeros(2)
+for _ in range(1000):
+    th -= 0.01 * (2/len(A)) * A.T @ (A @ th - ytr)
+print("Gradient Descent:", th)
+p1 = b((Xte - m) / s) @ th
+
+tn = np.linalg.inv(b(Xtr).T @ b(Xtr)) @ b(Xtr).T @ ytr
+print("Normal Equation:", tn)
+p2 = b(Xte) @ tn
+
+for n, p in [("Gradient Descent", p1), ("Normal Equation", p2)]:
+    print(f"\n--- {n} ---\nMSE:", mse(yte, p), "\nR2 Score:", r2(yte, p))
+
+i = Xte[:, 0].argsort()
+plt.scatter(Xte, yte, alpha=.5, label="Actual Data")
+plt.plot(Xte[i], p2[i], label="Regression Line")
+plt.xlabel("AveRooms"); plt.ylabel("Median House Value"); plt.legend(); plt.show()</pre></div>
+<div class="pane" data-pane="output"><pre class="out">Gradient Descent Parameters:
+Intercept: 2.071946933891858
+Slope: 0.18323881682653
+
+Normal Equations Parameters:
+Intercept: 1.6547622685968426
+Slope: 0.07675558963126718
+
+--- Gradient Descent ---
+MSE: 1.2923314439327267
+R2 Score: 0.013795337645229111
+
+--- Normal Equations ---
+MSE: 1.2923314440807299
+R2 Score: 0.013795337532284901</pre></div>
+</section>
+
+<section class="prog" id="p2" data-title="Ridge and Lasso" data-sub="Diabetes dataset">
+<h2>Program 2: Ridge and Lasso Regression</h2>
+<p class="aim">Implement Ridge and Lasso regression on the Diabetes dataset and compare them with standard linear regression using MSE and R2 score.</p>
+<div class="pane" data-pane="algorithm"><ol class="alg">
+<li>Start.</li><li>Import the required libraries.</li><li>Load the Diabetes dataset.</li><li>Split into training and testing sets.</li><li>Create and train Linear, Ridge and Lasso models.</li><li>Predict the test output with each model.</li><li>Calculate MSE and R2 score for each.</li><li>Compare the three models.</li><li>Plot a bar graph of the R2 scores.</li><li>Stop.</li></ol></div>
+<div class="pane" data-pane="code"><pre class="code">import matplotlib.pyplot as plt
+from sklearn.datasets import load_diabetes
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression, Ridge, Lasso
+from sklearn.metrics import mean_squared_error as mse, r2_score as r2
+
+X, y = load_diabetes(return_X_y=True)
+Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.2)
+
+names, scores = ["Linear", "Ridge", "Lasso"], []
+for n, mod in zip(names, [LinearRegression(), Ridge(), Lasso()]):
+    p = mod.fit(Xtr, ytr).predict(Xte)
+    scores.append(r2(yte, p))
+    print(f"\n{n} Regression\nMSE:", mse(yte, p), "\nR2:", scores[-1])
+
+plt.bar(names, scores); plt.xlabel("Models"); plt.ylabel("R2 Score")
+plt.title("Model Comparison"); plt.show()</pre></div>
+<div class="pane" data-pane="output"><pre class="out">Linear Regression
+MSE: 3389.721585186079
+R2: 0.37830987257315696
+
+Ridge Regression
+MSE: 3679.4545360154902
+R2: 0.32517155115228313
+
+Lasso Regression
+MSE: 3778.253718833672
+R2: 0.30705133832290665</pre></div>
+</section>
+
+<section class="prog" id="p3" data-title="MLE and MAP" data-sub="20 Newsgroups">
+<h2>Program 3: MLE and MAP Estimation</h2>
+<p class="aim">Use MLE and MAP to estimate the parameters of a multinomial distribution on the 20 Newsgroups dataset and explore the impact of the prior.</p>
+<div class="pane" data-pane="algorithm"><ol class="alg">
+<li>Start.</li><li>Import the required libraries.</li><li>Load the 20 Newsgroups train and test data.</li><li>Convert text to numbers using CountVectorizer.</li><li>Create Multinomial Naive Bayes for MLE (alpha almost 0) and train it.</li><li>Predict the test labels and display the accuracy.</li><li>Create Multinomial Naive Bayes for MAP (Laplace smoothing, alpha = 1) and train it.</li><li>Predict the test labels and display the accuracy.</li><li>Compare MLE and MAP accuracy.</li><li>End.</li></ol></div>
+<div class="pane" data-pane="code"><pre class="code">from sklearn.datasets import fetch_20newsgroups
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+
+c = ['alt.atheism', 'comp.graphics', 'sci.med']
+tr = fetch_20newsgroups(subset='train', categories=c, shuffle=True, random_state=42)
+te = fetch_20newsgroups(subset='test', categories=c, shuffle=True, random_state=42)
+v = CountVectorizer(stop_words='english')
+Xtr, Xte = v.fit_transform(tr.data), v.transform(te.data)
+
+for n, a in [("MLE (Approximation)", 1e-10), ("MAP (Laplace Smoothing)", 1.0)]:
+    print(n, "\nAccuracy:", MultinomialNB(alpha=a).fit(Xtr, tr.target).score(Xte, te.target), "\n")</pre></div>
+<div class="pane" data-pane="output"><pre class="out">MLE (Approximation)
+Accuracy: 0.9411231884057971
+
+MAP (Laplace Smoothing)
+Accuracy: 0.9565217391304348</pre></div>
+</section>
+
+<section class="prog" id="p4" data-title="Logistic Regression" data-sub="Pima Indians Diabetes">
+<h2>Program 4: Logistic Regression</h2>
+<p class="aim">Predict diabetes using the Pima Indians dataset with logistic regression and evaluate it using accuracy, precision, recall and F1-score.</p>
+<div class="pane" data-pane="algorithm"><ol class="alg">
+<li>Start.</li><li>Import the required libraries.</li><li>Load the Pima Indians Diabetes dataset.</li><li>Separate the input features and the target.</li><li>Split into training and testing sets.</li><li>Create and train the Logistic Regression model.</li><li>Predict the class labels for the test data.</li><li>Calculate Accuracy, Precision, Recall and F1 score.</li><li>Display the metrics.</li><li>End.</li></ol></div>
+<div class="pane" data-pane="code"><pre class="code">import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+
+url = ("https://raw.githubusercontent.com/jbrownlee/Datasets/"
+       "master/pima-indians-diabetes.data.csv")
+d = pd.read_csv(url, header=None)
+Xtr, Xte, ytr, yte = train_test_split(d.iloc[:, :-1], d.iloc[:, -1], test_size=0.2)
+p = LogisticRegression(max_iter=1000).fit(Xtr, ytr).predict(Xte)
+
+for n, f in [("Accuracy ", accuracy_score), ("Precision", precision_score),
+             ("Recall   ", recall_score), ("F1 Score ", f1_score)]:
+    print(n + ":", f(yte, p))</pre></div>
+<div class="pane" data-pane="output"><pre class="out">Accuracy : 0.7532467532467533
+Precision: 0.6444444444444445
+Recall : 0.5686274509803921
+F1 Score : 0.6041666666666666</pre></div>
+</section>
+
+<section class="prog" id="p5" data-title="K-Nearest Neighbors" data-sub="Fashion MNIST">
+<h2>Program 5: K-Nearest Neighbors</h2>
+<p class="aim">Implement KNN for image classification on Fashion MNIST and analyze the impact of different values of K.</p>
+<div class="pane" data-pane="algorithm"><ol class="alg">
+<li>Start.</li><li>Import the required libraries.</li><li>Load the Fashion MNIST dataset.</li><li>Select 5,000 training and 1,000 testing images (already flattened).</li><li>Normalize the pixel values between 0 and 1.</li><li>Select K values: 3, 7 and 15.</li><li>For each K: create the KNN model, train it, predict and calculate accuracy.</li><li>Display the accuracy for each K.</li><li>Compare the results.</li><li>Stop.</li></ol></div>
+<div class="pane" data-pane="code"><pre class="code">from sklearn.datasets import fetch_openml
+from sklearn.neighbors import KNeighborsClassifier
+
+print("Loading dataset...")
+X, y = fetch_openml('Fashion-MNIST', version=1, return_X_y=True, as_frame=False)
+Xtr, Xte, ytr, yte = X[:5000]/255.0, X[60000:61000]/255.0, y[:5000], y[60000:61000]
+
+for k in [3, 7, 15]:
+    acc = KNeighborsClassifier(n_neighbors=k).fit(Xtr, ytr).score(Xte, yte)
+    print(f"K={k} Accuracy: {acc:.2f}")</pre></div>
+<div class="pane" data-pane="output"><pre class="out">Loading dataset...
+K=3 Accuracy: 0.81
+K=7 Accuracy: 0.82
+K=15 Accuracy: 0.82</pre></div>
+</section>
+
+<div class="bar" style="margin:18px 0 0">
+  <div class="tabs" role="tablist" id="tabs">
+    <button role="tab" data-view="code" aria-selected="true">Code</button>
+    <button role="tab" data-view="algorithm" aria-selected="false">Algorithm</button>
+    <button role="tab" data-view="output" aria-selected="false">Output</button>
+  </div>
+  <button class="copy" id="copy">Copy code</button>
+</div>
+
+</main>
+</div>
+
+<script>
+(function(){
+  var progs=[].slice.call(document.querySelectorAll(".prog"));
+  var list=document.getElementById("list"),copyBtn=document.getElementById("copy"),tabs=document.getElementById("tabs");
+  var cur=0,view="code",timer;
+
+  progs.forEach(function(p,i){
+    var li=document.createElement("li"),b=document.createElement("button");
+    b.innerHTML="<b>Program "+(i+1)+": "+p.dataset.title+"</b><span>"+p.dataset.sub+"</span>";
+    b.onclick=function(){show(i);history.replaceState(null,"","#p"+(i+1));};
+    li.appendChild(b);list.appendChild(li);
+  });
+
+  function paneText(i,v){
+    var p=progs[i].querySelector('[data-pane="'+v+'"]');
+    if(v==="algorithm"){
+      return [].map.call(p.querySelectorAll("li"),function(l,n){return (n+1)+". "+l.textContent;}).join("\n");
+    }
+    return p.textContent;
+  }
+
+  function render(){
+    progs.forEach(function(p,i){
+      p.hidden=i!==cur;
+      [].forEach.call(p.querySelectorAll(".pane"),function(x){x.hidden=x.dataset.pane!==view;});
+    });
+    [].forEach.call(list.querySelectorAll("button"),function(b,i){b.setAttribute("aria-current",String(i===cur));});
+    [].forEach.call(tabs.querySelectorAll("button"),function(b){b.setAttribute("aria-selected",String(b.dataset.view===view));});
+    copyBtn.textContent="Copy "+view;
+    copyBtn.classList.remove("done");
+  }
+  function show(i){cur=i;render();}
+
+  tabs.addEventListener("click",function(e){
+    var b=e.target.closest("button");if(!b)return;
+    view=b.dataset.view;render();
+  });
+
+  function copy(text,btn,label){
+    function ok(){
+      btn.textContent="Copied!";btn.classList.add("done");
+      clearTimeout(timer);
+      timer=setTimeout(function(){btn.textContent=label;btn.classList.remove("done");},1600);
+    }
+    function fallback(){
+      var t=document.createElement("textarea");t.value=text;t.style.position="fixed";t.style.opacity="0";
+      document.body.appendChild(t);t.select();
+      try{document.execCommand("copy");ok();}catch(e){btn.textContent="Press Ctrl+C";}
+      document.body.removeChild(t);
+    }
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(ok,fallback);
+    }else fallback();
+  }
+
+  copyBtn.onclick=function(){copy(paneText(cur,view),copyBtn,"Copy "+view);};
+
+  var allBtn=document.getElementById("copyAll");
+  allBtn.onclick=function(){
+    var txt=progs.map(function(p,i){
+      return "# ===== Program "+(i+1)+": "+p.dataset.title+" =====\n"+paneText(i,"code");
+    }).join("\n\n\n");
+    copy(txt,allBtn,"Copy all 5 programs");
+  };
+
+  var m=/^#p([1-5])$/.exec(location.hash);
+  if(m)cur=+m[1]-1;
+  render();
+  window.addEventListener("hashchange",function(){
+    var h=/^#p([1-5])$/.exec(location.hash);if(h)show(+h[1]-1);
+  });
+})();
+</script>
+</body>
+</html>
